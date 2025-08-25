@@ -93,7 +93,7 @@
     </div>
 
     <p>สแกน QR Code ของผู้เข้าร่วมงาน</p>
-    <video id="camera" autoplay></video>
+    <video id="camera" autoplay playsinline muted></video>
     <canvas id="canvas" hidden></canvas>
 
     <!-- Result -->
@@ -114,15 +114,21 @@
         const statusMsg = document.getElementById("status");
 
         let currentUserId = "";
-        let scanningLocked = false; // 🔒 กันการสแกนซ้ำ
+        let scanningLocked = false;
+
+        // 🔗 ใส่ URL ของ Google Apps Script Web App ตรงนี้
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjRkZqGnlou1mKkge6JEyCzYoLafp4f6ImTgi_QTSrqRtJf9gApOV1-c-VDOHeuSJX/exec";
 
         // ✅ เปิดกล้อง
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
             .then(function (stream) {
                 video.srcObject = stream;
-                video.setAttribute("playsinline", true); // iOS
+                video.setAttribute("playsinline", true);
                 video.play();
                 requestAnimationFrame(scanQR);
+            })
+            .catch(err => {
+                alert("ไม่สามารถเปิดกล้องได้: " + err.message);
             });
 
         // ✅ ฟังก์ชันสแกน
@@ -138,56 +144,59 @@
                     currentUserId = code.data;
                     qrResult.innerText = currentUserId;
                     resultBox.style.display = "block";
-                    scanningLocked = true; // 🔒 ล็อคไม่ให้สแกนซ้ำ
+                    scanningLocked = true; // 🔒 ล็อคไม่ให้สแกนซ้ำจนกว่าจะกดปุ่ม
                 }
             }
             requestAnimationFrame(scanQR);
         }
 
-        
-            const SHEET_ID = "1JtLh5ojWlo7UlH9DKmf3NHtB0FOheogkWxeuAKDpPJCZMt-feQ0JdoDj";
-            const SHEET_NAME = "Log"; // ตั้งชื่อชีทที่อยากเก็บข้อมูล เช่น "Logs"
-
-            function doPost(e) {
-                try {
-                    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
-                    const data = JSON.parse(e.postData.contents);
-
-                    // userId = ค่า QR, status = IN/OUT, timestamp = เวลาที่หน้าเว็บส่งมา
-                    sheet.appendRow([new Date(), data.userId, data.status, data.timestamp]);
-
-                    return ContentService.createTextOutput(
-                        JSON.stringify({ success: true })
-                    ).setMimeType(ContentService.MimeType.JSON);
-
-                } catch (err) {
-                    return ContentService.createTextOutput(
-                        JSON.stringify({ success: false, error: err.message })
-                    ).setMimeType(ContentService.MimeType.JSON);
-                }
+        // ✅ ส่งข้อมูลไป Google Sheet ผ่าน Apps Script
+        function updateStatus(status) {
+            if (!currentUserId) {
+                alert("ยังไม่ได้สแกน QR");
+                return;
             }
 
-            function doGet(e) {
-                try {
-                    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
-                    const values = sheet.getDataRange().getValues();
+            const data = {
+                userId: currentUserId,
+                status: status,
+                timestamp: new Date().toISOString()
+            };
 
-                    // นับจำนวนเข้า-ออก
-                    const totalIn = values.filter(r => r[2] === "IN").length;
-                    const totalOut = values.filter(r => r[2] === "OUT").length;
-                    const currentCount = totalIn - totalOut;
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(response => {
+                    console.log("ส่งข้อมูลสำเร็จ:", response);
+                    statusMsg.innerText = "✅ บันทึกสำเร็จ (" + status + ")";
+                    scanningLocked = false; // ปลดล็อคให้สแกนต่อได้
+                    updateDashboard();
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+                    statusMsg.innerText = "❌ เกิดข้อผิดพลาด";
+                    scanningLocked = false;
+                });
+        }
 
-                    return ContentService.createTextOutput(
-                        JSON.stringify({ totalIn, totalOut, currentCount })
-                    ).setMimeType(ContentService.MimeType.JSON);
+        // ✅ อัปเดต Dashboard จาก Google Sheet
+        function updateDashboard() {
+            fetch(SCRIPT_URL)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("totalIn").innerText = data.totalIn;
+                    document.getElementById("totalOut").innerText = data.totalOut;
+                    document.getElementById("currentCount").innerText = data.currentCount;
+                })
+                .catch(err => console.error("ดึง Dashboard ไม่ได้:", err));
+        }
 
-                } catch (err) {
-                    return ContentService.createTextOutput(
-                        JSON.stringify({ success: false, error: err.message })
-                    ).setMimeType(ContentService.MimeType.JSON);
-                }
-            }
-
+        // โหลด Dashboard ครั้งแรก
+        updateDashboard();
+        setInterval(updateDashboard, 5000); // อัปเดตทุก 5 วิ
     </script>
 </body>
 
