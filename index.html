@@ -116,7 +116,7 @@
         let currentUserId = "";
         let scanningLocked = false;
 
-        // 🔗 เปลี่ยนเป็น URL ของ Google Apps Script Web App (ต้องลงท้ายด้วย /exec)
+        // 🔗 ใส่ URL ของ Google Apps Script Web App (ลงท้ายด้วย /exec)
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8lVLDa0qR643kGiNFTXCYR3CkiFIFNeYc18iasiea0TYIhTcYLmXXIRqzuWw_dZsrMw/exec";
 
         // ✅ เปิดกล้อง
@@ -144,7 +144,7 @@
                     currentUserId = code.data;
                     qrResult.innerText = currentUserId;
                     resultBox.style.display = "block";
-                    scanningLocked = true;
+                    scanningLocked = true; // 🔒 ล็อคไม่ให้สแกนซ้ำจนกว่าจะกดปุ่ม
                 }
             }
             requestAnimationFrame(scanQR);
@@ -165,14 +165,14 @@
 
             fetch(SCRIPT_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, // 👈 แก้ตรงนี้
                 body: JSON.stringify(data)
             })
                 .then(res => res.json())
                 .then(response => {
                     console.log("ส่งข้อมูลสำเร็จ:", response);
                     statusMsg.innerText = "✅ บันทึกสำเร็จ (" + status + ")";
-                    scanningLocked = false;
+                    scanningLocked = false; // ปลดล็อคให้สแกนต่อได้
                     updateDashboard();
                 })
                 .catch(err => {
