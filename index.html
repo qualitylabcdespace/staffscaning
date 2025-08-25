@@ -144,51 +144,50 @@
             requestAnimationFrame(scanQR);
         }
 
-        // ✅ อัปเดตสถานะเข้า/ออกไป Google Sheets
-        function updateStatus(status) {
-            if (!currentUserId) return;
-            statusMsg.innerText = "⏳ กำลังบันทึก...";
+        
+            const SHEET_ID = "1JtLh5ojWlo7UlH9DKmf3NHtB0FOheogkWxeuAKDpPJCZMt-feQ0JdoDj";
+            const SHEET_NAME = "Log"; // ตั้งชื่อชีทที่อยากเก็บข้อมูล เช่น "Logs"
 
-            fetch("https://script.google.com/macros/s/AKfycbzfrDaEx3B6NxBFNnRa2JSvqn2gp0kxPXpvRHWlvtR2te9EWGxlKGVXCdAhb6BBQYEA/exec", {
-                method: "POST",
-                body: JSON.stringify({
-                    userId: currentUserId,
-                    status: status,
-                    timestamp: new Date().toISOString()
-                }),
-                headers: { "Content-Type": "application/json" }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    statusMsg.innerText = "✅ บันทึกเรียบร้อย (" + status + ")";
-                    updateDashboard(); // รีเฟรช Dashboard
-                    setTimeout(() => {
-                        resultBox.style.display = "none";
-                        currentUserId = "";
-                        scanningLocked = false; // 🔓 ปลดล็อคเพื่อสแกนใหม่
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error(err);
-                    statusMsg.innerText = "❌ เกิดข้อผิดพลาด";
-                    scanningLocked = false;
-                });
-        }
+            function doPost(e) {
+                try {
+                    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+                    const data = JSON.parse(e.postData.contents);
 
-        // ✅ โหลด Dashboard จาก Google Sheets
-        function updateDashboard() {
-            fetch("https://script.google.com/macros/s/AKfycbzfrDaEx3B6NxBFNnRa2JSvqn2gp0kxPXpvRHWlvtR2te9EWGxlKGVXCdAhb6BBQYEA/exec")
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById("currentCount").innerText = data.currentCount || 0;
-                    document.getElementById("totalIn").innerText = data.totalIn || 0;
-                    document.getElementById("totalOut").innerText = data.totalOut || 0;
-                });
-        }
+                    // userId = ค่า QR, status = IN/OUT, timestamp = เวลาที่หน้าเว็บส่งมา
+                    sheet.appendRow([new Date(), data.userId, data.status, data.timestamp]);
 
-        // โหลด Dashboard ทุก 10 วินาที
-        setInterval(updateDashboard, 10000);
-        updateDashboard();
+                    return ContentService.createTextOutput(
+                        JSON.stringify({ success: true })
+                    ).setMimeType(ContentService.MimeType.JSON);
+
+                } catch (err) {
+                    return ContentService.createTextOutput(
+                        JSON.stringify({ success: false, error: err.message })
+                    ).setMimeType(ContentService.MimeType.JSON);
+                }
+            }
+
+            function doGet(e) {
+                try {
+                    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+                    const values = sheet.getDataRange().getValues();
+
+                    // นับจำนวนเข้า-ออก
+                    const totalIn = values.filter(r => r[2] === "IN").length;
+                    const totalOut = values.filter(r => r[2] === "OUT").length;
+                    const currentCount = totalIn - totalOut;
+
+                    return ContentService.createTextOutput(
+                        JSON.stringify({ totalIn, totalOut, currentCount })
+                    ).setMimeType(ContentService.MimeType.JSON);
+
+                } catch (err) {
+                    return ContentService.createTextOutput(
+                        JSON.stringify({ success: false, error: err.message })
+                    ).setMimeType(ContentService.MimeType.JSON);
+                }
+            }
+
     </script>
 </body>
 
