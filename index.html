@@ -116,8 +116,8 @@
         let currentUserId = "";
         let scanningLocked = false;
 
-        // 🔗 ใส่ URL ของ Google Apps Script Web App ตรงนี้
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjRkZqGnlou1mKkge6JEyCzYoLafp4f6ImTgi_QTSrqRtJf9gApOV1-c-VDOHeuSJX/exec";
+        // 🔗 เปลี่ยนเป็น URL ของ Google Apps Script Web App (ต้องลงท้ายด้วย /exec)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlZn5AlyFufdms4N422xF_zHoHsLlc3XtdEowWJ5EmMCRqWDhFCk5uZ5YBiVUJkIFP/exec";
 
         // ✅ เปิดกล้อง
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
@@ -144,7 +144,7 @@
                     currentUserId = code.data;
                     qrResult.innerText = currentUserId;
                     resultBox.style.display = "block";
-                    scanningLocked = true; // 🔒 ล็อคไม่ให้สแกนซ้ำจนกว่าจะกดปุ่ม
+                    scanningLocked = true;
                 }
             }
             requestAnimationFrame(scanQR);
@@ -172,7 +172,7 @@
                 .then(response => {
                     console.log("ส่งข้อมูลสำเร็จ:", response);
                     statusMsg.innerText = "✅ บันทึกสำเร็จ (" + status + ")";
-                    scanningLocked = false; // ปลดล็อคให้สแกนต่อได้
+                    scanningLocked = false;
                     updateDashboard();
                 })
                 .catch(err => {
@@ -196,8 +196,9 @@
 
         // โหลด Dashboard ครั้งแรก
         updateDashboard();
-        setInterval(updateDashboard, 5000); // อัปเดตทุก 5 วิ
+        setInterval(updateDashboard, 5000);
     </script>
 </body>
 
 </html>
+
