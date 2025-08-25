@@ -1,280 +1,194 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="th">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
-    <style>
-        @font-face {
-            font-family: 'DB Helvethaica X Ext';
-            src: url('./ThaiSansNeue-SemiBold.otf') format('truetype');
-        }
-
-        * {
-            box-sizing: border-box;
-            font-family: 'DB Helvethaica X Ext', sans-serif;
-        }
-
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: url("Artboard 5 copy.png") no-repeat center center fixed;
-            background-size: cover;
-            overflow: hidden;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 440px;
-            text-align: center;
-            padding: 2rem 1.5rem 2rem;
-            backdrop-filter: blur(8px);
-            animation: popUp 0.4s ease-in-out;
-        }
-
-        @keyframes popUp {
-            0% {
-                transform: scale(0.95);
-                opacity: 0;
-            }
-
-            100% {
-                transform: scale(1);
-=======
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galaxy with Twinkling Stars</title>
+    <title>Staff Scanner & Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
     <style>
         body {
-            margin: 0;
-            overflow: hidden;
-            background: radial-gradient(circle, #000428, #004e92);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #121212;
+            color: #f5f5f5;
+            text-align: center;
+            padding: 20px;
         }
 
-        .star {
-            position: absolute;
-            border-radius: 50%;
-            background: white;
-            animation: twinkle 1.5s infinite alternate;
+        h1 {
+            color: #ffd369;
         }
 
-        @keyframes twinkle {
-            0% {
-                opacity: 0.5;
-            }
-
-            100% {
->>>>>>> 41848c0 (Add single-file website)
-                opacity: 1;
-            }
+        .dashboard {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(255, 211, 105, 0.5);
         }
 
-<<<<<<< HEAD
-        .logo {
-            height: 200px;
-            margin-bottom: 0.1rem;
-            object-fit: contain;
+        .dashboard p {
+            margin: 5px;
+            font-size: 1rem;
         }
 
-        h2 {
-            margin: 0;
-            color: #e35229;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: -7vh;
+        video {
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #ffd369;
+            border-radius: 12px;
+            margin-top: 15px;
         }
 
-        form {
-            margin-top: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 211, 105, 0.5);
         }
 
-        input {
-            padding: 0.7rem 1rem;
+        .btn {
+            padding: 12px 26px;
+            margin: 10px;
             border: none;
-            border-radius: 999px;
-            background: #e0f7ff;
-            color: #2e7791;
-            font-size: 0.95rem;
-            line-height: 1.2;
-        }
-
-        input::placeholder {
-            color: #2e7791;
-        }
-
-        button {
-            background: #e35229;
-            color: white;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 999px;
-            font-size: 0.95rem;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.15s ease-in-out;
+            transition: 0.2s;
+            font-size: 1.1rem;
         }
 
-        button:hover {
+        .btn-in {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-out {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn:hover {
             transform: scale(1.05);
+            opacity: 0.9;
         }
 
-        button:active {
-            transform: scale(0.95);
-=======
-        #saturn {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Saturn.png') no-repeat center;
-            background-size: contain;
-            animation: wrap 5s infinite;
-        }
-
-        @keyframes wrap {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .glow {
-            animation: glow 1s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                filter: brightness(1);
-            }
-
-            100% {
-                filter: brightness(2);
-            }
->>>>>>> 41848c0 (Add single-file website)
+        #status {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #ccc;
         }
     </style>
 </head>
 
 <body>
-<<<<<<< HEAD
-    <div class="card">
-        <img src="Logo2-03.png" alt="โลโก้งาน" class="logo" />
-        <h2>REGISTER</h2>
-        <form id="registerForm">
-            <input type="text" id="name" placeholder="ชื่อ" required />
-            <input type="text" id="surname" placeholder="นามสกุล" required />
-            <input type="text" id="studentId" placeholder="รหัสนักศึกษา" required />
-            <button type="submit">LOGIN</button>
-        </form>
+    <h1>📊 Staff Dashboard & QR Scanner</h1>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <p>👥 อยู่ในงานตอนนี้: <span id="currentCount">0</span> / 30</p>
+        <p>✅ เข้าสะสม: <span id="totalIn">0</span></p>
+        <p>🚪 ออกสะสม: <span id="totalOut">0</span></p>
     </div>
 
-    <!-- Script เชื่อม Firebase -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <p>สแกน QR Code ของผู้เข้าร่วมงาน</p>
+    <video id="camera" autoplay></video>
+    <canvas id="canvas" hidden></canvas>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9rPT6eJVgKzO8NWUZZCSfyiiDJ9D8cMg",
-            authDomain: "chromatic-soul-4be98.firebaseapp.com",
-            projectId: "chromatic-soul-4be98",
-            storageBucket: "chromatic-soul-4be98.appspot.com",
-            messagingSenderId: "462766469206",
-            appId: "1:462766469206:web:350687694f973fac29cbf7",
-            measurementId: "G-NE4NZPQVET"
-        };
+    <!-- Result -->
+    <div class="result-box" id="result-box" style="display:none;">
+        <h2>QR ที่สแกนได้:</h2>
+        <p id="qr-result"></p>
+        <button class="btn btn-in" onclick="updateStatus('IN')">✅ เข้า</button>
+        <button class="btn btn-out" onclick="updateStatus('OUT')">🚪 ออก</button>
+        <div id="status"></div>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.onload = () => {
-            document.body.style.opacity = '1';
-        };
-
-        document.getElementById("registerForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById("name").value.trim();
-            const surname = document.getElementById("surname").value.trim();
-            const studentId = document.getElementById("studentId").value.trim();
-
-            if (!name || !surname || !studentId) {
-                alert("กรุณากรอกข้อมูลให้ครบ");
-                return;
-            }
-
-            const userData = { name, surname, studentId };
-
-            try {
-                await addDoc(collection(db, "registrations"), userData);
-                localStorage.setItem("userData", JSON.stringify(userData));
-
-                document.body.style.opacity = '0';
-                setTimeout(() => {
-                    window.location.href = "choose.html";
-                }, 500);
-            } catch (error) {
-                console.error("เกิดข้อผิดพลาด: ", error);
-                alert("บันทึกข้อมูลไม่สำเร็จ กรุณาลองใหม่");
-            }
-=======
-    <div id="saturn"></div>
     <script>
-        const body = document.body;
+        const video = document.getElementById("camera");
+        const canvasElement = document.getElementById("canvas");
+        const canvas = canvasElement.getContext("2d");
+        const resultBox = document.getElementById("result-box");
+        const qrResult = document.getElementById("qr-result");
+        const statusMsg = document.getElementById("status");
 
-        // Create stars
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            const size = Math.random() * 3 + 1; // Random size between 1 and 4
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.top = `${Math.random() * window.innerHeight}px`;
-            star.style.left = `${Math.random() * window.innerWidth}px`;
-            body.appendChild(star);
+        let currentUserId = "";
+        let scanningLocked = false; // 🔒 กันการสแกนซ้ำ
+
+        // ✅ เปิดกล้อง
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(function (stream) {
+                video.srcObject = stream;
+                video.setAttribute("playsinline", true); // iOS
+                video.play();
+                requestAnimationFrame(scanQR);
+            });
+
+        // ✅ ฟังก์ชันสแกน
+        function scanQR() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA && !scanningLocked) {
+                canvasElement.width = video.videoWidth;
+                canvasElement.height = video.videoHeight;
+                canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+                const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
+
+                if (code) {
+                    currentUserId = code.data;
+                    qrResult.innerText = currentUserId;
+                    resultBox.style.display = "block";
+                    scanningLocked = true; // 🔒 ล็อคไม่ให้สแกนซ้ำ
+                }
+            }
+            requestAnimationFrame(scanQR);
         }
 
-        // Add glow effect to Saturn
-        const saturn = document.getElementById('saturn');
-        saturn.addEventListener('mouseover', () => {
-            saturn.classList.add('glow');
-        });
+        // ✅ อัปเดตสถานะเข้า/ออกไป Google Sheets
+        function updateStatus(status) {
+            if (!currentUserId) return;
+            statusMsg.innerText = "⏳ กำลังบันทึก...";
 
-        saturn.addEventListener('mouseout', () => {
-            saturn.classList.remove('glow');
->>>>>>> 41848c0 (Add single-file website)
-        });
+            fetch("https://script.google.com/macros/s/AKfycbzfrDaEx3B6NxBFNnRa2JSvqn2gp0kxPXpvRHWlvtR2te9EWGxlKGVXCdAhb6BBQYEA/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    userId: currentUserId,
+                    status: status,
+                    timestamp: new Date().toISOString()
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    statusMsg.innerText = "✅ บันทึกเรียบร้อย (" + status + ")";
+                    updateDashboard(); // รีเฟรช Dashboard
+                    setTimeout(() => {
+                        resultBox.style.display = "none";
+                        currentUserId = "";
+                        scanningLocked = false; // 🔓 ปลดล็อคเพื่อสแกนใหม่
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error(err);
+                    statusMsg.innerText = "❌ เกิดข้อผิดพลาด";
+                    scanningLocked = false;
+                });
+        }
+
+        // ✅ โหลด Dashboard จาก Google Sheets
+        function updateDashboard() {
+            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=stats")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("currentCount").innerText = data.currentCount || 0;
+                    document.getElementById("totalIn").innerText = data.totalIn || 0;
+                    document.getElementById("totalOut").innerText = data.totalOut || 0;
+                });
+        }
+
+        // โหลด Dashboard ทุก 10 วินาที
+        setInterval(updateDashboard, 10000);
+        updateDashboard();
     </script>
 </body>
 
