@@ -177,7 +177,7 @@
 
         // ✅ โหลด Dashboard จาก Google Sheets
         function updateDashboard() {
-            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=stats")
+            fetch("https://script.google.com/macros/s/AKfycbzfrDaEx3B6NxBFNnRa2JSvqn2gp0kxPXpvRHWlvtR2te9EWGxlKGVXCdAhb6BBQYEA/exec")
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById("currentCount").innerText = data.currentCount || 0;
