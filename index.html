@@ -7,12 +7,19 @@
     <title>Staff Scanner & Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
     <style>
+        @font-face {
+            font-family: 'SukhumvitSetBold';
+            src: url('sukhumvit-set-bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
         body {
             font-family: "Segoe UI", Arial, sans-serif;
             background: #121212;
             color: #f5f5f5;
             text-align: center;
             padding: 20px;
+            font-family: 'SukhumvitSetBold', sans-serif;
         }
 
         h1 {
@@ -30,6 +37,7 @@
         .dashboard p {
             margin: 5px;
             font-size: 1rem;
+            font-family: 'SukhumvitSetBold', sans-serif;
         }
 
         video {
@@ -62,11 +70,13 @@
         .btn-in {
             background: #4caf50;
             color: white;
+            font-family: 'SukhumvitSetBold', sans-serif;
         }
 
         .btn-out {
             background: #e74c3c;
             color: white;
+            font-family: 'SukhumvitSetBold', sans-serif;
         }
 
         .btn:hover {
@@ -83,16 +93,16 @@
 </head>
 
 <body>
-    <h1>📊 Staff Dashboard & QR Scanner</h1>
+    <h1> Staff QR Scanner</h1>
 
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
-        <p>👥 อยู่ในงานตอนนี้: <span id="currentCount">0</span> / 30</p>
-        <p>✅ เข้าสะสม: <span id="totalIn">0</span></p>
-        <p>🚪 ออกสะสม: <span id="totalOut">0</span></p>
+        <p> อยู่ในงานตอนนี้: <span id="currentCount">0</span> / 30</p>
+        <p> เข้าสะสม: <span id="totalIn">0</span></p>
+        <p> ออกสะสม: <span id="totalOut">0</span></p>
     </div>
 
-    <p>สแกน QR Code ของผู้เข้าร่วมงาน</p>
+    <p></p>
     <video id="camera" autoplay playsinline muted></video>
     <canvas id="canvas" hidden></canvas>
 
@@ -100,8 +110,8 @@
     <div class="result-box" id="result-box" style="display:none;">
         <h2>QR ที่สแกนได้:</h2>
         <p id="qr-result"></p>
-        <button class="btn btn-in" onclick="updateStatus('IN')">✅ เข้า</button>
-        <button class="btn btn-out" onclick="updateStatus('OUT')">🚪 ออก</button>
+        <button class="btn btn-in" onclick="updateStatus('IN')">เข้า</button>
+        <button class="btn btn-out" onclick="updateStatus('OUT')"> ออก</button>
         <div id="status"></div>
     </div>
 
